@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Senyawa Karbon: Turunan Alkana</title>
+    <style>
+        :root {
+            --primary-color: #4A90E2;
+            --secondary-color: #50E3C2;
+            --accent-color: #FF6F61;
+            --text-color: #333;
+            --bg-light: #f4f7f6;
+            --card-bg: #ffffff;
+            --sidebar-width: 250px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-color);
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        /* Header Mobile */
+        .mobile-header {
+            display: none;
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        /* Layout Container */
+        .container {
+            display: flex;
+            flex: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: #2c3e50;
+            color: white;
+            padding: 2rem 1rem;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            position: sticky;
+            top: 0;
+            overflow-y: auto;
+        }
+
+        .sidebar h2 {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: var(--secondary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 1rem;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            color: #ecf0f1;
+            padding: 12px 15px;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: var(--primary-color);
+            color: white;
+            padding-left: 20px;
+            font-weight: bold;
+        }
+
+        /* Content Area */
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 2.2rem;
+        }
+
+        h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            border-left: 5px solid var(--accent-color);
+            padding-left: 10px;
+        }
+
+        /* Info Cards */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .formula-box {
+            background: #e8f4fd;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2980b9;
+            margin-bottom: 1rem;
+        }
+
+        ul {
+            padding-left: 1.2rem;
+            line-height: 1.6;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Quiz Styles */
+        .quiz-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .question-card {
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1.5rem;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .option-btn {
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s;
+        }
+
+        .option-btn:hover {
+            background-color: #f8f9fa;
+            border-color: var(--primary-color);
+        }
+
+        .option-btn.correct {
+            background-color: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .option-btn.wrong {
+            background-color: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        .feedback {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            min-height: 20px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                flex-direction: row;
+                overflow-x: auto;
+                padding: 1rem;
+                position: relative;
+                white-space: nowrap;
+            }
+
+            .sidebar h2 {
+                display: none;
+            }
+
+            .nav-btn {
+                margin: 0 5px;
+                padding: 8px 15px;
+                background: rgba(255,255,255,0.1);
+            }
+
+            .mobile-header {
+                display: block;
+            }
+            
+            .main-content {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mobile-header">
+        <h2>Senyawa Karbon</h2>
+    </div>
+
+    <div class="container">
+        <nav class="sidebar">
+            <h2>Materi Kimia</h2>
+            <button class="nav-btn active" onclick="switchTab('home')">🏠 Home</button>
+            <button class="nav-btn" onclick="switchTab('alkohol')">🍺 Alkohol (Alkanol)</button>
+            <button class="nav-btn" onclick="switchTab('eter')">🌫️ Eter (Alkoksi)</button>
+            <button class="nav-btn" onclick="switchTab('aldehid')">⚗️ Aldehid (Alkanal)</button>
+            <button class="nav-btn" onclick="switchTab('keton')">🧪 Keton (Alkanon)</button>
+            <button class="nav-btn" onclick="switchTab('asam')">🍋 Asam Karboksilat</button>
+            <button class="nav-btn" onclick="switchTab('ester')">🍎 Ester</button>
+            <button class="nav-btn" onclick="switchTab('halo')">❄️ Haloalkana</button>
+            <button class="nav-btn" onclick="switchTab('kuis')">📝 Kuis Latihan</button>
+        </nav>
+
+        <main class="main-content">
+            
+            <div id="home" class="tab-content active">
+                <h1>Pengantar Senyawa Karbon</h1>
+                <div class="card">
+                    <p style="font-size: 1.1rem; line-height: 1.8;">
+                        Di kelas X kita telah mempelajari hidrokarbon (alkana, alkena, alkuna). Senyawa karbon yang dipelajari kali ini adalah <strong>Turunan Alkana</strong>.
+                        Bila satu atau lebih atom H pada alkana diganti dengan atom atau gugus lain, maka akan dihasilkan senyawa turunan alkana.
+                        <br><br>
+                        <strong>Gugus Fungsi</strong> adalah gugus atom yang menentukan sifat suatu senyawa karbon. Senyawa dengan rumus molekul yang sama dapat memiliki rumus struktur yang berbeda (Isomer).
+                        <br><br>
+                        <em>Contoh:</em> Gugus –OH pada metanol menggantikan atom H pada metana.
+                    </p>
+                </div>
+                <div style="margin-top: 2rem; text-align: center;">
+                    <p>Pilih materi di menu samping untuk mulai belajar!</p>
+                </div>
+            </div>
+
+            <div id="alkohol" class="tab-content">
+                <h1>Alkohol (Alkanol)</h1>
+                <div class="formula-box">Rumus Umum: R – OH <br> (CnH2n+2O)</div>
+                
+                <div class="info-grid">
+                    <div class="card">
+                        <div class="card-header">📋 Tata Nama & Jenis</div>
+                        <p><strong>Nama:</strong> Mengganti akhiran <em>-ana</em> alkana menjadi <em>-anol</em> (IUPAC).</p>
+                        <p><strong>Jenis Alkohol:</strong></p>
+                        <ul>
+                            <li><strong>Primer:</strong> Gugus -OH terikat pada atom C primer (ujung).</li>
+                            <li><strong>Sekunder:</strong> Gugus -OH terikat pada atom C sekunder.</li>
+                            <li><strong>Tersier:</strong> Gugus -OH terikat pada atom C tersier.</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">🔄 Isomer</div>
+                        <ul>
+                            <li><strong>Isomer Rangka & Posisi:</strong> Perbedaan letak cabang atau gugus -OH.</li>
+                            <li><strong>Isomer Fungsi:</strong> Berisomer dengan <strong>Eter</strong>.</li>
+                            <li><strong>Isomer Optis:</strong> Terjadi pada alkohol sekunder dengan atom C asimetris (Kiral), yaitu atom C yang mengikat 4 gugus berbeda.</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">⚗️ Sifat & Identifikasi</div>
+                        <ul>
+                            <li>Titik didih lebih tinggi dari eter karena <strong>Ikatan Hidrogen</strong>.</li>
+                            <li><strong>Reaksi Pembeda:</strong> Bereaksi dengan Logam (Na, K, Mg, Al) melepas gas H2 (Eter tidak bereaksi).</li>
+                            <li><strong>Oksidasi:</strong> 
+                                <br>- Primer → Asam Karboksilat
+                                <br>- Sekunder → Alkanon (Keton)
+                                <br>- Tersier → Tidak teroksidasi
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">🛠️ Kegunaan</div>
+                        <ul>
+                            <li><strong>Metanol:</strong> Pelarut, bahan plastik, bahan bakar. Sangat beracun (bisa lewat kulit/nafas).</li>
+                            <li><strong>Etanol:</strong> Pelarut, desinfektan, bahan bakar (di Brasil), minuman beralkohol (menyebabkan mabuk/adiktif).</li>
+                            <li><strong>Glikol:</strong> Zat anti beku radiator mobil, bahan serat sintetis.</li>
+                            <li><strong>Gliserol:</strong> Pelarut obat, bahan peledak (gliserol trinitrat).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="eter" class="tab-content">
+                <h1>Eter (Alkoksi Alkana)</h1>
+                <div class="formula-box">Rumus Umum: R – O – R' <br> (CnH2n+2O)</div>
+                
+                <div class="info-grid">
+                    <div class="card">
+                        <div class="card-header">📋 Karakteristik Utama</div>
+                        <p>Merupakan <strong>Isomer Fungsi</strong> dari Alkohol.</p>
+                        <p><strong>Sifat Fisik:</strong></p>
+                        <ul>
+                            <li>Mudah menguap dan berbau harum.</li>
+                            <li>Titik didih lebih rendah dari alkohol (jumlah C sama).</li>
+                            <li>Sukar larut dalam air.</li>
+                            <li>Mudah terbakar.</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">🔍 Identifikasi (Pembeda)</div>
+                        <ul>
+                            <li><strong>Tidak bereaksi</strong> dengan logam Na (Pembeda utama dengan Alkohol).</li>
+                            <li><strong>Tidak bereaksi</strong> dengan PCl3.</li>
+                            <li>Bereaksi dengan PCl5 tapi tidak membebaskan HCl.</li>
+                            <li>Bereaksi dengan Asam Halida (HX).</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">🛠️ Kegunaan</div>
+                        <ul>
+                            <li><strong>Pelarut:</strong> Senyawa organik.</li>
+                            <li><strong>Obat Bius:</strong> Dulu digunakan untuk operasi (sekarang jarang).</li>
+                            <li><strong>MTBE (Metil Tersier Butil Eter):</strong> Zat aditif bensin untuk menaikkan bilangan oktan.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="aldehid" class="tab-content">
+                <h1>Aldehid (Alkanal)</h1>
+                <div class="formula-box">Rumus Umum: R – CHO <br> (CnH2nO)</div>
+
+                <div class="info-grid">
+                    <div class="card">
+                        <div class="card-header">📋 Karakteristik</div>
+                        <p>Isomer fungsi dengan <strong>Keton (Alkanon)</strong>.</p>
+                        <p><strong>Tata Nama:</strong> Akhiran <em>-ana</em> diganti <em>-anal</em>.</p>
+                        <p><strong>Sifat Fisik:</strong> Suku pertama (gas) berbau merangsang, suku tinggi berbau harum.</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">⚗️ Reaksi Identifikasi (PENTING)</div>
+                        <p>Aldehid adalah reduktor kuat, dapat dibedakan dengan Keton menggunakan:</p>
+                        <ul>
+                            <li><strong>Pereaksi Fehling:</strong> Menghasilkan <strong>Endapan Merah Bata</strong>.</li>
+                            <li><strong>Pereaksi Tollens:</strong> Menghasilkan <strong>Cermin Perak</strong> (Endapan Ag).</li>
+                            <li><em>Catatan: Keton tidak bereaksi dengan keduanya.</em></li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">🛠️ Kegunaan</div>
+                        <ul>
+                            <li><strong>Formalin:</strong> Larutan 37% formaldehid (metanal) dalam air. Untuk mengawetkan benda anatomi (bukan makanan!).</li>
+                            <li>Bahan baku damar buatan, plastik, dan insektisida.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="keton" class="tab-content">
+                <h1>Keton (Alkanon)</h1>
+                <div class="formula-box">Rumus Umum: R – CO – R' <br> (CnH2nO)</div>
+
+                <div class="info-grid">
+                    <div class="card">
+                        <div class="card-header">📋 Sifat & Reaksi</div>
+                        <p>Isomer fungsi dengan <strong>Aldehid</strong>.</p>
+                        <p><strong>Identifikasi:</strong></p>
+                        <ul>
+                            <li>Dapat direduksi menjadi Alkohol Sekunder.</li>
+                            <li><strong>TIDAK</strong> bereaksi dengan Fehling maupun Tollens (Pembeda dengan Aldehid).</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">🛠️ Kegunaan</div>
+                        <ul>
+                            <li><strong>Aseton (Propanon):</strong> Pelarut senyawa organik (misal: pembersih kuteks).</li>
+                            <li>Bahan pembuat <strong>Kloroform</strong> (reaksi aseton + gas klor + NaOH).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="asam" class="tab-content">
+                <h1>Asam Karboksilat (Asam Alkanoat)</h1>
+                <div class="formula-box">Rumus Umum: R – COOH <br> (CnH2nO2)</div>
+
+                <div class="info-grid">
+                    <div class="card">
+                        <div class="card-header">📋 Sifat Kimia</div>
+                        <p>Isomer fungsi dengan <strong>Ester</strong>.</p>
+                        <ul>
+                            <li>Merupakan <strong>Asam Lemah</strong>. Semakin panjang rantai C, semakin lemah sifat asamnya.</li>
+                            <li>Bereaksi dengan basa membentuk garam.</li>
+                            <li>Bereaksi dengan Alkohol membentuk <strong>Ester</strong> (Esterifikasi).</li>
+                            <li>Asam Formiat dapat dioksidasi menjadi CO2 dan H2O.</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">🛠️ Kegunaan</div>
+                        <ul>
+                            <li><strong>Asam Formiat (Asam Semut):</strong> Menggumpalkan lateks (getah karet), menyamak kulit.</li>
+                            <li><strong>Asam Asetat (Cuka):</strong> Pengasam makanan.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="ester" class="tab-content">
+                <h1>Ester (Alkil Alkanoat)</h1>
+                <div class="formula-box">Rumus Umum: R – COO – R' <br> (CnH2nO2)</div>
+
+                <div class="info-grid">
+                    <div class="card">
+                        <div class="card-header">📋 Karakteristik Unik</div>
+                        <ul>
+                            <li>Titik didih lebih rendah dari asam karboksilat asalnya.</li>
+                            <li>Bersifat Netral.</li>
+                            <li>Dapat mengalami <strong>Hidrolisis</strong> menjadi Asam Karboksilat + Alkohol.</li>
+                            <li>Hidrolisis ester suku tinggi dengan NaOH/KOH menghasilkan <strong>Sabun</strong> (Saponifikasi).</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">🍓 Aroma & Kegunaan (Esens)</div>
+                        <p>Ester suku rendah beraroma buah-buahan (Esens Buatan):</p>
+                        <ul>
+                            <li><strong>Etil Asetat:</strong> Aroma pisang selai/susu.</li>
+                            <li><strong>Amil Asetat:</strong> Aroma pisang / pelarut damar.</li>
+                            <li><strong>Amil Valerat:</strong> Aroma apel.</li>
+                            <li><strong>Oktil Asetat:</strong> Aroma jeruk.</li>
+                            <li><strong>Benzil Asetat:</strong> Aroma strawberry.</li>
+                        </ul>
+                        <p><strong>Kegunaan Lain:</strong> Bahan kain (Polyester), bahan sabun.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="halo" class="tab-content">
+                <h1>Haloalkana</h1>
+                <div class="formula-box">Rumus Umum: R – X <br> (X = F, Cl, Br, I)</div>
+
+                <div class="info-grid">
+                    <div class="card">
+                        <div class="card-header">🛠️ Kegunaan & Contoh</div>
+                        <ul>
+                            <li><strong>CCl4 (Tetra Kloro Metana):</strong> Pelarut non-polar, pemadam api (namun beracun).</li>
+                            <li><strong>Kloroform (CHCl3):</strong> Obat bius (anestesi), tapi merusak hati (sudah jarang dipakai).</li>
+                            <li><strong>Halotan (CF3CHClBr):</strong> Obat bius pengganti kloroform.</li>
+                            <li><strong>Iodoform (CHI3):</strong> Antiseptik (obat luka).</li>
+                            <li><strong>Freon (CFC):</strong> Pendingin AC/Kulkas (Merusak ozon).</li>
+                            <li><strong>DDT:</strong> Insektisida (mencemari lingkungan, sulit terurai).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="kuis" class="tab-content">
+                <h1>Latihan Soal Interaktif</h1>
+                <p style="margin-bottom: 2rem;">Uji pemahamanmu berdasarkan materi yang telah dibaca.</p>
+                <div id="quiz-area" class="quiz-container">
+                    </div>
+            </div>
+
+        </main>
+    </div>
+
+<script>
+    // Data Kuis diambil dari dokumen
+    const questions = [
+        {
+            q: "Senyawa manakah yang dapat bereaksi dengan logam Natrium menghasilkan gas Hidrogen?",
+            options: ["Eter", "Alkohol", "Aldehid", "Keton"],
+            answer: 1, // Alkohol (Source: 462, 508)
+            explanation: "Alkohol bereaksi dengan logam aktif (Na, K, Mg) melepas H2, sedangkan Eter tidak bereaksi."
+        },
+        {
+            q: "Untuk membedakan Aldehid dan Keton dapat digunakan pereaksi...",
+            options: ["Logam Natrium", "Asam Sulfat", "Fehling & Tollens", "Gas Klor"],
+            answer: 2, // Fehling/Tollens (Source: 544, 555)
+            explanation: "Aldehid dapat mereduksi Fehling (endapan merah) dan Tollens (cermin perak), sedangkan Keton tidak."
+        },
+        {
+            q: "Senyawa haloalkana yang digunakan sebagai antiseptik pada luka adalah...",
+            options: ["Kloroform", "Iodoform (CHI3)", "CCl4", "Freon"],
+            answer: 1, // Iodoform (Source: 626)
+            explanation: "Iodoform (CHI3) digunakan sebagai antiseptik. Kloroform untuk obat bius, CCl4 pelarut."
+        },
+        {
+            q: "Apa nama senyawa ester yang memiliki aroma buah apel?",
+            options: ["Etil Asetat", "Oktil Asetat", "Amil Valerat", "Benzil Asetat"],
+            answer: 2, // Amil Valerat (Source: 613)
+            explanation: "Amil Valerat berbau buah apel. Oktil asetat (jeruk), Etil asetat (pisang), Benzil asetat (strawberry)."
+        },
+        {
+            q: "Zat yang ditambahkan ke dalam bensin untuk meningkatkan bilangan oktan adalah...",
+            options: ["Etanol", "MTBE", "Formalin", "Glikol"],
+            answer: 1, // MTBE (Source: 536)
+            explanation: "MTBE (Metil Tersier Butil Eter) ditambahkan ke bensin untuk menaikkan bilangan oktan."
+        },
+        {
+            q: "Asam karboksilat yang digunakan untuk menggumpalkan lateks (getah karet) adalah...",
+            options: ["Asam Asetat", "Asam Formiat", "Asam Sulfat", "Asam Klorida"],
+            answer: 1, // Asam Formiat (Source: 581)
+            explanation: "Asam Formiat (Asam Semut) digunakan untuk menggumpalkan lateks dan menyamak kulit."
+        },
+        {
+            q: "Larutan 37% formaldehid dalam air dikenal dengan nama...",
+            options: ["Alkohol", "Aseton", "Formalin", "Spiritus"],
+            answer: 2, // Formalin (Source: 545)
+            explanation: "Larutan formaldehid (metanal) sekitar 37-40% dalam air disebut Formalin, untuk pengawet anatomi."
+        }
+    ];
+
+    // Fungsi Navigasi Tab
+    function switchTab(tabId) {
+        // Hide all contents
+        const contents = document.querySelectorAll('.tab-content');
+        contents.forEach(el => el.classList.remove('active'));
+        
+        // Remove active class from buttons
+        const btns = document.querySelectorAll('.nav-btn');
+        btns.forEach(el => el.classList.remove('active'));
+
+        // Show selected content
+        document.getElementById(tabId).classList.add('active');
+        
+        // Highlight button (simple logic based on order or text match could be better but this works for demo)
+        const btnArray = Array.from(btns);
+        const selectedBtn = btnArray.find(btn => btn.getAttribute('onclick').includes(tabId));
+        if(selectedBtn) selectedBtn.classList.add('active');
+
+        // Scroll top
+        document.querySelector('.main-content').scrollTop = 0;
+    }
+
+    // Fungsi Render Kuis
+    function renderQuiz() {
+        const quizContainer = document.getElementById('quiz-area');
+        let html = '';
+
+        questions.forEach((q, index) => {
+            html += `
+                <div class="question-card">
+                    <div class="question-text">${index + 1}. ${q.q}</div>
+                    <div class="options">
+                        ${q.options.map((opt, i) => `
+                            <button class="option-btn" onclick="checkAnswer(this, ${index}, ${i})">${opt}</button>
+                        `).join('')}
+                    </div>
+                    <div class="feedback" id="feedback-${index}"></div>
+                </div>
+            `;
+        });
+
+        quizContainer.innerHTML = html;
+    }
+
+    // Fungsi Cek Jawaban
+    function checkAnswer(btn, qIndex, optIndex) {
+        const question = questions[qIndex];
+        const feedbackEl = document.getElementById(`feedback-${qIndex}`);
+        const parent = btn.parentElement;
+        
+        // Disable all buttons in this question
+        const allBtns = parent.querySelectorAll('.option-btn');
+        allBtns.forEach(b => b.disabled = true);
+
+        if (optIndex === question.answer) {
+            btn.classList.add('correct');
+            feedbackEl.innerHTML = `<span style="color:green">✅ Benar! ${question.explanation}</span>`;
+        } else {
+            btn.classList.add('wrong');
+            // Highlight correct answer
+            allBtns[question.answer].classList.add('correct');
+            feedbackEl.innerHTML = `<span style="color:red">❌ Salah.</span> Jawaban yang benar adalah: <strong>${question.options[question.answer]}</strong>.<br>${question.explanation}`;
+        }
+    }
+
+    // Initialize
+    renderQuiz();
+
+</script>
+
+</body>
+</html>
